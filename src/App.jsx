@@ -1,15 +1,18 @@
 import './Weather.css'
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 function App() {
   const API_KEY = 'd496c449c2698f63c261202cd8904dc1';
-  const [city, setCity] = useState('');
+
+  const cityInputRef = useRef(null);
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
 const fetchWeather = async (e) => {
   e.preventDefault();
+  //Через DOM дістаємо назву міста
+  const city = cityInputRef.current.value.trim();
   if(!city) return;
   setLoading(true);
   setError(null);
@@ -36,8 +39,7 @@ const fetchWeather = async (e) => {
         <input
           type="text"
           placeholder="Введіть назву міста"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
+          ref={cityInputRef} //Прив'язка ref
         />
         <button type={"submit"}>Пошук</button>
       </form>
